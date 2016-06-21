@@ -4,7 +4,7 @@ from sys import exit
 
 
 
-gamestate = {"Current Room": "Home", "Cursor Room" : "", "Current Enemy":{"Name": "", "Weapon":{}, "Health":0, "Bounty":0, "Experience" : 0} , "Experience" : 0,  "Level" : 1, "Health": 200, "Gold": 100, "Inventory": {"Weapon":{}, "Armour":{}, "Boss Badges": [] }}
+gamestate = {"Current Room": "Home", "Cursor Room" : "", "Current Enemy":{"Name": "", "Weapon":{}, "Health":0, "Bounty":0, "Experience" : 0} , "Experience" : 0,  "Level" : 1, "Health": 150, "Gold": 10, "Inventory": {"Weapon":{}, "Armour":{}, "Boss Badges": [] }}
 
 
 # Cursor Room is where you want to go after combat
