@@ -45,7 +45,7 @@ bad_guys = {0: {"Name": "Skeletor", "Weapon" : weapons_low[0], "Health" : 50, "B
 
 
 bosses = {0: {"Name": "Rotted Greatwood Monster", "Weapon" : {"Name": "Vines of DOOM", "Damage": 60, "Accuracy" : 7, "Price": 1000}, "Health" : 150, "Bounty": 85, "Experience" : 45 },
-          1: {"Name": "Cave Giant", "Weapon" : {"Name": "Rock Hurl", "Damage": 85, "Accuracy" : 5, "Price": 1000}, "Health" : 200, "Bounty": 50, "Experience" : 60} }
+          1: {"Name": "Cave Giant", "Weapon" : {"Name": "Rock Hurl", "Damage": 85, "Accuracy" : 6, "Price": 1000}, "Health" : 200, "Bounty": 50, "Experience" : 60} }
 
 
 #: {"Name": "", "Weapon": weapons[], "Health": , "Bounty": }            
