@@ -66,7 +66,7 @@ number_of_armours = len(armour) - 1
 
 
 def exp_call_1(gamestate):
-    if "Forest" in gamestate["Inventory"]["Boss Badges"]:
+    if "Forest" in gamestate["Inventory"]["Boss Badges"] and "Mountain" in gamestate["Inventory"]["Boss Badges"]:
         win()
     else:
         if gamestate["Experience"] >= 40:
