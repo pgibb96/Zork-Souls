@@ -1039,24 +1039,24 @@ suits = ['S','C','D','H']
 value = ['A','2','3','4','5','6','7','8','9','10','J','Q','K']
 number_min = [1,2,3,4,5,6,7,8,9,10,10,10,10]
 number_max = [11,2,3,4,5,6,7,8,9,10,10,10,10]
-jackstate = {'Deck': [], 'Player': [], 'Dealer': [], 'Split': False, 'Gold': gamestate["Gold"], 'Wager': 0}
 
 def start(jackstate):
-    while jackstate["Gold"] > 0:
+    jackstate = {'Deck': [], 'Player': [], 'Dealer': [], 'Split': False, 'Gold': gamestate["Gold"], 'Wager': 0}
+    while jackstate['Gold'] > 0:
         
         print "Would you like to play a hand?\n(1) Yes (2) No"
         choice = raw_input(" > ")
         if "1" in choice:
             play_hand(jackstate)
         else:
-            gamestate["Gold"] = int(jackstate["Gold"])
+            gamestate["Gold"] = int(jackstate['Gold'])
             print "You leave the table with " + str(gamestate["Gold"]) + " Gold."
             time.sleep(2)
             Casino_Room(gamestate)
 
     print "You have lost all your money"
     time.sleep(2)
-    gamestate["Gold"] = int(jackstate["Gold"])
+    gamestate["Gold"] = int(jackstate['Gold'])
     Casino_Room(gamestate)
 def deck_creation():
     deck = []
