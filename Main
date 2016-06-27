@@ -1511,7 +1511,7 @@ def Faith_Room(gamestate):
         print "You stand before the devil."
         time.sleep(2)
         os.system('clear')
-        print "The devil wants to play a game...\nwith your life as the wager!
+        print "The devil wants to play a game...\nwith your life as the wager!"
         print "All you must do is solve the following riddle:"
         print "What contains the answer to all questions?"
         choice = raw_input(" > ")
