@@ -1468,7 +1468,7 @@ def Faith_Room(gamestate):
     if faith == 0:
         print "You hit the ground with a splat"
         time.sleep(2)
-        die()
+        dead()
     elif faith == 1:
         print "As you plummet towards the ground, something odd happens."
         print ""
