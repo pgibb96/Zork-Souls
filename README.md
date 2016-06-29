@@ -17,4 +17,4 @@ To switch to windows, all instances of:
 
 
 
-Shoutout to Peter Gibb for working on this with me and Preston Epps for the Blackjack section
+Shoutout to @petergibb96 for working on this with me and Preston Epps for the Blackjack section
