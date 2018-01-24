@@ -217,10 +217,8 @@ def combat(gamestate):
                 print ""
                 time.sleep(1)
                 pass
-        
         else:
             pass
-        
     if gamestate["Health"] <= 0:
         print "You are dead"
         time.sleep(2)
@@ -283,7 +281,6 @@ def Death_Room(gamestate):
             print "Misclick! You must face the forest trap once more."
             time.sleep(2)
             Death_Room(gamestate)
-        
     else:
         print "Wrong choice bub. You fall through the booby trap and die"
         time.sleep(2)
