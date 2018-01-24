@@ -1,24 +1,31 @@
 import random, time, os
 from sys import exit
-
-
-
-gamestate = {"Current Room": "Home", "Cursor Room" : "", "Current Enemy":{"Name": "", "Weapon":{}, "Health":0, "Bounty":0, "Experience" : 0} , "Experience" : 0,  "Level" : 1, "Health": 150, "Gold": 10, "Inventory": {"Weapon":{}, "Armour":{}, "Boss Badges": [] }}
-
-
+# Current gamestate of your playthrough
+# Current Room is your current location
 # Cursor Room is where you want to go after combat
+# Current Enemy is a structure with Name, Weapon, Health, Bounty, Experience
+# Experience is your current experience
+# Level is your current leve
+# Gold is your current gold 
+# Inventory is a structure with weapon, armour, and badges
+gamestate = {"Current Room": "Home", 
+             "Cursor Room" : "", 
+	     "Current Enemy":{"Name": "", "Weapon":{}, "Health":0, "Bounty":0, "Experience" : 0}, 
+	     "Experience" : 0,  
+	     "Level" : 1, 
+	     "Health": 150, 
+	     "Gold": 10, 
+	     "Inventory": {"Weapon":{}, "Armour":{}, "Boss Badges": [] }}
+
 # To win you must collect all the boss badges
 
-
+# Available armours
 armour = {0: {"Name": "Bronze Shield", "Bonus": 30, "Price": 10},
           1: {"Name": "Silver Shield", "Bonus": 50, "Price": 20},
           2: {"Name": "Gold Shield", "Bonus": 70, "Price": 40},
           3: {"Name": "Platinum Shield", "Bonus": 150, "Price": 75}}
-
-
-
-
-#Accuracy out of 10 (e.g. 5 accuracy hits 50% of the time)
+# Available weapons
+# Accuracy out of 10 (e.g. 5 accuracy hits 50% of the time)
 weapons_low = {0: {"Name": "Sword", "Damage": 10, "Accuracy": 9, "Price": 10},
                1: {"Name": "Bow + Arrow", "Damage": 8, "Accuracy": 7, "Price": 5},
                2: {"Name": "Dagger", "Damage" : 5, "Accuracy" : 10, "Price": 7}}
@@ -33,7 +40,7 @@ weapons_high = {0: {"Name": "Weed Leaf", "Damage": 420, "Accuracy" : 1, "Price":
     
 weapons_mythical = {0: {"Name": "Heavenly Sword", "Damage": 70, "Accuracy" : 10, "Price": 0},
                 1: {"Name": "Devil's Trident", "Damage": 100, "Accuracy": 8, "Price": 0}}
-
+# Various enemies
 bad_guys = {0: {"Name": "Skeletor", "Weapon" : weapons_low[0], "Health" : 50, "Bounty": 10, "Experience" : 3}, 
             1: {"Name": "Slimy Slug", "Weapon": weapons_low[2], "Health" : 40, "Bounty": 5, "Experience" : 2},
             2: {"Name": "Zombie", "Weapon": weapons_mid[0], "Health": 60, "Bounty": 6, "Experience" : 5},
@@ -43,28 +50,26 @@ bad_guys = {0: {"Name": "Skeletor", "Weapon" : weapons_low[0], "Health" : 50, "B
             6: {"Name": "Disease-ridden Child", "Weapon": weapons_high[1], "Health": 10, "Bounty": 5, "Experience" : 20},
             7: {"Name": "Leprechaun", "Weapon": weapons_high[0], "Health": 70, "Bounty": 50, "Experience" : 18}}
 
-
-bosses = {0: {"Name": "Rotted Greatwood Monster", "Weapon" : {"Name": "Vines of DOOM", "Damage": 60, "Accuracy" : 7, "Price": 1000}, "Health" : 150, "Bounty": 85, "Experience" : 45 },
-          1: {"Name": "Cave Giant", "Weapon" : {"Name": "Rock Hurl", "Damage": 85, "Accuracy" : 6, "Price": 1000}, "Health" : 200, "Bounty": 50, "Experience" : 60} }
-
+# All bosses
+bosses = {0: {"Name": "Rotted Greatwood Monster", 
+              "Weapon" : {"Name": "Vines of DOOM", "Damage": 60, "Accuracy" : 7, "Price": 1000}, 
+	      "Health" : 150, "Bounty": 85, "Experience" : 45 },
+          1: {"Name": "Cave Giant", 
+	      "Weapon" : {"Name": "Rock Hurl", "Damage": 85, "Accuracy" : 6, "Price": 1000}, 
+	      "Health" : 200, "Bounty": 50, 
+	      "Experience" : 60} }
 
 #: {"Name": "", "Weapon": weapons[], "Health": , "Bounty": }            
 #Start_text =print "You have " + str(gamestate["Health"]) + " Health, " + str(gamestate["Gold"]) + " Gold, and are level " + str(gamestate["Level"]) + "."
 
-
+# Number used when randomly selecting a weapon for you
 number_of_weapons_low = len(weapons_low) - 1
 number_of_weapons_mid = len(weapons_mid) - 1
 number_of_weapons_high = len(weapons_high) - 1
 number_of_bad_guys = len(bad_guys) - 1
 number_of_armours = len(armour) - 1
 
-
-
-
-
-
-
-
+# Checks to see if you have won or if you have leveled up to level 2
 def exp_call_1(gamestate):
     if "Forest" in gamestate["Inventory"]["Boss Badges"] and "Mountain" in gamestate["Inventory"]["Boss Badges"]:
         win()
@@ -79,7 +84,8 @@ def exp_call_1(gamestate):
 	        exp_call_2(gamestate)
         else:
 	    room_call(gamestate)
-
+	    
+# Checks to see if you have leveled up to level 3. Need to add a new level
 def exp_call_2(gamestate):
     if gamestate["Experience"] >= 150:
 	if gamestate["Level"] == 2:
@@ -95,8 +101,7 @@ def exp_call_2(gamestate):
 def exp_call_3(gamestate):
     room_call(gamestate)
 
-
-
+# Depending on your current room, it directs you to a different gamestate
 def room_call(gamestate):
     if gamestate["Current Room"] == "Home":
 	os.system('clear')
@@ -143,10 +148,8 @@ def room_call(gamestate):
     elif gamestate["Current Room"] == "Faith":
 	os.system('clear')
         Faith_Room(gamestate)
-
-
-
-
+	
+# How combat is initiated	
 def combat(gamestate):
     os.system('clear')    
     player_weapon = gamestate["Inventory"]["Weapon"]
@@ -158,7 +161,7 @@ def combat(gamestate):
     time.sleep(5)
     os.system('clear')
     while gamestate["Health"] > 0 and gamestate["Current Enemy"]["Health"] > 0:
-    
+        # Actual combat
         a = player_weapon["Accuracy"] + 1
         accuracy = list(range(1, a))
         pick = random.randint(1,10)
@@ -169,23 +172,19 @@ def combat(gamestate):
             print "Enemy: " + str(gamestate["Current Enemy"]["Health"]) + " health."
             time.sleep(2)
             print ""
-            
             pass
         else:
             print "You miss!"
             print ""
             time.sleep(1)
             pass
-        
-        
+	# If the enemy is still alive    
         if gamestate["Current Enemy"]["Health"] > 0:
             b = enemy_weapon["Accuracy"] + 1
             accuracy = list(range(1, b))
             pick = random.randint(0,8)
             if pick in accuracy:
                 print str(gamestate["Current Enemy"]["Name"]) + " hits you for " + str(enemy_weapon["Damage"]) + " damage."
-
-
 		if bool(gamestate["Inventory"]["Armour"]) is not False:
 		    current_armour = gamestate["Inventory"]["Armour"]["Bonus"]               
 		    if current_armour > 0:
@@ -237,24 +236,16 @@ def combat(gamestate):
         os.system('clear')
         gamestate["Current Room"] = gamestate["Cursor Room"]
         exp_call_1(gamestate)
-        
-        
 
-
-
-
-
-
+# Initiating original room
 def Home_Room(gamestate):
     print "You have " + str(gamestate["Health"]) + " Health, " + str(gamestate["Gold"]) + " Gold, and are level " + str(gamestate["Level"]) + "."
     print "Welcome home. Here are your options: "
     print " (1) East (2) West (3) North"
     decision = raw_input(" > ")
-
     if "1" in decision or "2" in decision or "3" in decision:
         if "1" in decision:
             gamestate["Current Room"] = "Death Room"
-          
             time.sleep(1)
             exp_call_1(gamestate)
         elif "2" in decision:
@@ -269,14 +260,6 @@ def Home_Room(gamestate):
         print "Incorrect entry"
         time.sleep(1)
         Home_Room(gamestate)
-
-
-
-
-
-
-
-
 
 def Death_Room(gamestate):
     print "You have " + str(gamestate["Health"]) + " Health, " + str(gamestate["Gold"]) + " Gold, and are level " + str(gamestate["Level"]) + "."
@@ -306,15 +289,7 @@ def Death_Room(gamestate):
         time.sleep(2)
         os.system('clear')
         dead()
-        
-      
-   
-   
-   
-   
-   
-   
-        
+
 def Pre_Fight_Room(gamestate):
     print "Welcome to the Coliseum young traveler"
     print "....the door closes behind you."
@@ -337,14 +312,8 @@ def Pre_Fight_Room(gamestate):
     gamestate["Current Room"] = "combat"
     gamestate["Cursor Room"] = "Post Fight Room"
     room_call(gamestate)
- 
- 
- 
- 
- 
- 
- 
     
+#present options
 def Post_Fight_Room(gamestate):
     os.system('clear')
     print "Where will you go next?"
@@ -363,16 +332,8 @@ def Post_Fight_Room(gamestate):
         print "Incorrect entry"
         time.sleep(1)
         Post_Fight_Room(gamestate)
-
-    #present options
-
-
-
-
-
-
-
-
+	
+# Treasure room of the game
 def Treasure_Room(gamestate):
     print "You have " + str(gamestate["Health"]) + " Health, " + str(gamestate["Gold"]) + " Gold, and are level " + str(gamestate["Level"]) + "."
     print "You have entered a Treasure Room! A suspicious chest lies on the floor."
@@ -380,7 +341,6 @@ def Treasure_Room(gamestate):
     choice = raw_input(" > ")
     if "1" in choice:
         ab = random.randint(1,2)
-        
         if ab == 1:
             x = random.randint(0,number_of_weapons_mid)
             random_weapon = weapons_mid[x]
@@ -396,11 +356,7 @@ def Treasure_Room(gamestate):
             elif "2" in choice:
                 print "As you wish"
 		time.sleep(2)
-                pass
-            
-            
-            
-            
+                pass   
         if ab == 2:
             y = random.randint(0,number_of_armours)
             random_armour = armour[y]
@@ -421,14 +377,10 @@ def Treasure_Room(gamestate):
                 print "You misclicked, therefore NO ARMOUR FOR YOU"
                 time.sleep(2)
                 pass
-            
-        
     else:
         print "Interesting choice. You leave the chest as is"
 	time.sleep(2)
-        pass
-    
-                
+        pass     
     os.system('clear')
     print "Where will you go next?"
     print " (1) Back to the Fight room (2) Take the back exit "
@@ -446,12 +398,7 @@ def Treasure_Room(gamestate):
         print "Uh oh. Misclick means DEATH"
         time.sleep(2)
         dead()
-        
-            
-            
-
-
-
+	
 # Store keeps replenishing a fresh random list of items everytime you walk in. Fix this. Make the items global so that buying one removes it from the store
 
 #mid tier weapon
@@ -466,15 +413,11 @@ c1 = armour[c]
 
 store_wares = [a1, b1, c1]
 
-
-
-
 def Store_Room(gamestate):
     os.system('clear')
     print "You have " + str(gamestate["Health"]) + " Health, " + str(gamestate["Gold"]) + " Gold, and are level " + str(gamestate["Level"]) + "."
     print "You arrive upon a battered down shack.\nA man pops up from the counter and says:\nHowdy partner! What can I do for ya?\n(1) Buy\n(2) Heal up\n(3) Ignore man"
     choice = raw_input(" > ")
-    
     #BUYING
     if "1" in choice:
 	os.system('clear')
@@ -489,14 +432,13 @@ def Store_Room(gamestate):
             positions.append(item_position)
             print "(" + str(item_position + 1) + ")" + str(item["Name"]) + " - " + str(item["Price"]) + " Gold."
         choice_2 = raw_input(" > ")
-        chosen_item = int(choice_2)
-        
-    #NTY
+        chosen_item = int(choice_2)    
+    # Not buying
         if chosen_item == 0:
             print "The store owner wishes you safe travels."
             time.sleep(2)
             pass
-    #Buying specific item
+    # Buying specific item
         elif chosen_item - 1 <= len(store_wares):
             store_wares_new = list(enumerate(store_wares))
             for item in store_wares_new:
@@ -521,12 +463,10 @@ def Store_Room(gamestate):
                         print"Not enough gold to purchase. Owner gets upset and stabs you"
                         time.sleep(2)
                         dead()
-                    
                 else:
                     pass
         else:
             pass
- 
     #HEALING
     elif "2" in choice:
 	os.system('clear')
@@ -550,7 +490,6 @@ def Store_Room(gamestate):
             pass
     else:
         pass
-
     #CONTINUING
     os.system('clear')
     print " Where to from here?"
@@ -568,10 +507,7 @@ def Store_Room(gamestate):
         print "You should know better than to input incorrectly"
         time.sleep(2)
         kill()
-
-
-
-
+	
 def Forest_Boss_Room(gamestate):
     os.system('clear')
     print "You have " + str(gamestate["Health"]) + " Health, " + str(gamestate["Gold"]) + " Gold, and are level " + str(gamestate["Level"]) + "."   
@@ -595,9 +531,6 @@ def Forest_Boss_Room(gamestate):
     gamestate["Cursor Room"] = "Post Boss Room"
     exp_call_1(gamestate)
 
-
-
-
 def Dirt_Road_Room(gamestate):
     print "You have " + str(gamestate["Health"]) + " Health, " + str(gamestate["Gold"]) + " Gold, and are level " + str(gamestate["Level"]) + "."
     print "You find yourself on a boring dirt road.\nTo the West lies an old run-down building.\nWhere to from here?"
@@ -616,9 +549,6 @@ def Dirt_Road_Room(gamestate):
         print "Incorrect Input"
         time.sleep(1)
         Dirt_Road_Room(gamestate)
-
-
-
 
 def Casino_Room(gamestate):
     os.system('clear')
@@ -647,13 +577,9 @@ def Casino_Room(gamestate):
     else:
         pass
 
-
-
 #################################################################
 ##SLOT MACHINE SECTION##
 #################################################################
-
-
 
 Slot_Symbols = ["   $   ", "   @   ", "   *   ", "   #   ", "   %   "]
 
@@ -724,8 +650,6 @@ def Slots(gamestate):
             time.sleep(1)
             os.system('clear')
             print Slot_State
-
-
             time.sleep(3)
             os.system('clear')
             if Slot_State.count("   $   ") == 4:
@@ -769,11 +693,9 @@ def Slots(gamestate):
     else: 
         Casino_Room(gamestate)
  
-
 ###################################################################################
 ##END OF SLOT MACHINE SECTION##
 ###################################################################################
-
 
 ######################################################################
 #Roulette
@@ -917,8 +839,6 @@ def Roulette_Room(gamestate):
                         Roulette_Room(gamestate)
                 else:
                     Roulette_Room(gamestate)
-            
-                
             elif "2" in choice:
                 os.system('clear')
                 bet1 = random.randint(0,36)
@@ -1027,9 +947,6 @@ def Roulette_Room(gamestate):
 ###################################################################################
 
 
-
-
-
 ################################################################################################
 ##BLACKJACK SECTION##
 ################################################################################################
@@ -1067,7 +984,6 @@ def deck_creation():
                 deck.append(b + a)
     return deck
 
-
 def reshuffle(jackstate):
     player_hand = []
     dealer_hand = []
@@ -1086,7 +1002,6 @@ def reshuffle(jackstate):
     jackstate['Split'] = False
     return jackstate
 
-
 def deal(jackstate):
     player_hand = []
     dealer_hand = []
@@ -1103,7 +1018,6 @@ def deal(jackstate):
     jackstate['Split'] = False
     return jackstate
 
-
 def same_value(hand):
     card_1 = hand[0]
     card_2 = hand[1]
@@ -1111,7 +1025,6 @@ def same_value(hand):
         return True
     else:
         return False
-
 
 def check_sum(hand):
     sum_hand_min = 0
@@ -1121,7 +1034,6 @@ def check_sum(hand):
             if v in card:
                 sum_hand_min += number_min[value.index(v)]
                 sum_hand_max += number_max[value.index(v)]
-
     if len(hand) == 2 and sum_hand_max == 21:
         return 'Blackjack'
     if sum_hand_min > 21:
@@ -1130,7 +1042,6 @@ def check_sum(hand):
         return sum_hand_min
     else:
         return sum_hand_max
-
 
 def compare_sums(jackstate,dealer_sum):
     player_sum_min = 0
@@ -1171,7 +1082,6 @@ def compare_sums(jackstate,dealer_sum):
         print("It's a tie")
         return
 
-
 def dealer_doing_his_thing(jackstate):
     dealer_sum = check_sum(jackstate['Dealer'])
     if dealer_sum == 'Bust':
@@ -1208,7 +1118,6 @@ def dealer_doing_his_thing(jackstate):
         jackstate['Deck'].remove(card)
         dealer_doing_his_thing(jackstate)
 
-
 def split_options(jackstate):
     if not jackstate['Split']:
         your_hand_text = 'You: '
@@ -1241,7 +1150,6 @@ def split_options(jackstate):
     choice = raw_input('> ')
     player_choice(jackstate,choice)
 
-
 def split_hand(jackstate):
     cards = jackstate['Player']
     jackstate['Player'] = {'Hand 1': [cards[0]],
@@ -1261,7 +1169,6 @@ def split_hand(jackstate):
         if n == 1:
             raw_input('')
 
-
 def player_choice(jackstate,choice):
     if choice == '1':
         card = random.choice(jackstate['Deck'])
@@ -1276,7 +1183,6 @@ def player_choice(jackstate,choice):
         print("wrong input")
         choice = raw_input('> ')
         player_choice(jackstate,choice)
-
 
 def player_options(jackstate):
     if not jackstate['Split']:
@@ -1310,7 +1216,6 @@ def player_options(jackstate):
     choice = raw_input('> ')
     player_choice(jackstate,choice)
 
-
 def place_bet(jackstate):
     os.system('clear')
     print('You currently have ' + str(jackstate['Gold']) + ' Gold.')
@@ -1338,7 +1243,6 @@ def place_bet(jackstate):
         jackstate['Wager'] = wager
     return jackstate
 
-
 def play_hand(jackstate):
     jackstate['Wager'] = 0
     if len(jackstate['Deck']) < 52:
@@ -1352,12 +1256,9 @@ def play_hand(jackstate):
     player_options(jackstate)
     return jackstate
 
-
-
 ################################################################################################
 ##END OF BLACKJACK SECTION##
 ################################################################################################
-
 
 Climb_Events = { 0 : {"Name" : "You must stop climbing for the night due to exhaustion",  "Health Impact" : 10, "Restart" : False, "Done" : False },
                   1 : {"Name" : "You narrowly escape marauders, but are left injured", "Health Impact" : 15, "Restart" : False, "Done" : False },
@@ -1365,8 +1266,6 @@ Climb_Events = { 0 : {"Name" : "You must stop climbing for the night due to exha
                   3 : {"Name" : "You somehow manage to sprain your leg whilst climbing", "Health Impact" : 20, "Restart" : False, "Done" : False },
                   4 : {"Name" : "You slip and fall off the trail!", "Health Impact" : 5, "Restart" : True, "Done" : False},
                   5 : {"Name" : "You make it up the mountain", "Health Impact" : 0, "Restart" : False, "Done" : True } }
-
-
 
 def Mountain_Climb_Room(gamestate):
     os.system('clear')
@@ -1418,10 +1317,6 @@ def Mountain_Climb_Room(gamestate):
         time.sleep(2)
         Mountain_Climb(gamestate)
 
-
-
-
-
 def Mountain_Peak_Room(gamestate):
     os.system('clear')
     print "Welcome to the Peak of the Mountain"
@@ -1461,9 +1356,6 @@ def Mountain_Peak_Room(gamestate):
         time.sleep(2)
         Mountain_Peak_Room(gamestate)
 
-
-
-
 def Faith_Room(gamestate):
     faith = int(random.randint(0,2))
     if faith == 0:
@@ -1491,10 +1383,6 @@ def Faith_Room(gamestate):
         time.sleep(5)
         gamestate["Current Room"] = "Home"
         exp_call_1(gamestate)
-
-
-
-        
     elif faith == 2:
         print "As you plummet towards the ground, something odd happens."
         print ""
@@ -1528,7 +1416,6 @@ def Faith_Room(gamestate):
             print "WRONG ANSWER"
             dead()
 
-
 def Mountain_Boss_Room(gamestate):
     os.system('clear')
     print "You have " + str(gamestate["Health"]) + " Health, " + str(gamestate["Gold"]) + " Gold, and are level " + str(gamestate["Level"]) + "."   
@@ -1555,8 +1442,6 @@ def Mountain_Boss_Room(gamestate):
     gamestate["Cursor Room"] = "Post Boss Room"
     exp_call_1(gamestate)
 
-
-
 # Will require slight alterations when more bosses are added
 def Post_Boss_Room(gamestate):
     print "You have defeated the " +str(gamestate["Current Enemy"]["Name"]) + "!"
@@ -1577,8 +1462,6 @@ def Post_Boss_Room(gamestate):
             print "You've acquired the mountain boss badge!"
 	time.sleep(3)    	
 	pass
-
-
     else:
         print "Glitched"
         time.sleep(2)
@@ -1588,15 +1471,6 @@ def Post_Boss_Room(gamestate):
     gamestate["Current Room"] = "Home"
     gamestate["Cursor Room"] = ""
     exp_call_1(gamestate)
-
-
-
-
-
-
-
-
-
 
 def dead():
     print "Thank you Zork Souls"
@@ -1608,22 +1482,5 @@ def win():
     print "you win baby... for now"
     time.sleep(2)
     exit(0)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 exp_call_1(gamestate)
