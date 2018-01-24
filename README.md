@@ -2,7 +2,7 @@
 
 
 
-Note that in order to play this you need a python interpretor on the terminal and it is currently only compatible with Ubuntu/Linux systems. 
+Note that in order to play this you need a python interpretor on the terminal running python 2.7 and it is currently only compatible with Ubuntu/Linux systems. 
 
 To switch to windows, all instances of: 
 
@@ -16,4 +16,4 @@ To switch to windows, all instances of:
 
 
 
-Shoutout to petergibb96 for working on this with me and Preston Epps for the Blackjack section
+Shoutout to pgibb96 for working on this with me and Preston Epps for the Blackjack section
