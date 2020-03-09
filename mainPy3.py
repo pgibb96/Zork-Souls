@@ -75,90 +75,77 @@ def exp_call_1(gamestate):
         win()
     else:
         if gamestate["Experience"] >= 60:
-            win()
-        if gamestate["Level"] == 1:
-            gamestate["Level"] = gamestate["Level"] + 1
-            print "You've Leveled up to level " + str(gamestate["Level"]) + "!"
+            if gamestate["Level"] == 1:
+                gamestate["Level"] = gamestate["Level"] + 1
+                print(f"You've Leveled up to level {str(gamestate["Level"])}!")
                 time.sleep(2)
-            exp_call_2(gamestate)
+            else:
+                exp_call_2(gamestate)
         else:
-            exp_call_2(gamestate)
-        else:
-        room_call(gamestate)
+            room_call(gamestate)
 
 # Checks to see if you have leveled up to level 3. Need to add a new level
 def exp_call_2(gamestate):
     if gamestate["Experience"] >= 150:
-    if gamestate["Level"] == 2:
-        gamestate["Level"] = gamestate["Level"] + 1
-        print "You've Leveled up to level " + str(gamestate["Level"]) + "!"
-        time.sleep(2)
-        exp_call_3(gamestate)
+        if gamestate["Level"] == 2:
+            gamestate["Level"] = gamestate["Level"] + 1
+            print(f"You've Leveled up to level {str(gamestate["Level"])}!")
+            time.sleep(2)
+        else:
+            exp_call_3(gamestate)
     else:
-        exp_call_3(gamestate)
-    else:
-    room_call(gamestate)
+        room_call(gamestate)
 
 def exp_call_3(gamestate):
+    #TODO
     room_call(gamestate)
 
 # Depending on your current room, it directs you to a different gamestate
 def room_call(gamestate):
-    if gamestate["Current Room"] == "Home":
     os.system('clear')
+    if gamestate["Current Room"] == "Home":
         Home_Room(gamestate)
     elif gamestate["Current Room"] == "Death Room":
-    os.system('clear')
         Death_Room(gamestate)
     elif gamestate["Current Room"] == "Pre Fight Room":
-    os.system('clear')
         Pre_Fight_Room(gamestate)
     elif gamestate["Current Room"] == "combat":
-    os.system('clear')
         combat(gamestate)
     elif gamestate["Current Room"] == "Post Fight Room":
-    os.system('clear')
         Post_Fight_Room(gamestate)
     elif gamestate["Current Room"] == "Treasure Room":
-        os.system('clear')
         Treasure_Room(gamestate)
     elif gamestate["Current Room"] == "Store":
-    os.system('clear')
         Store_Room(gamestate)
     elif gamestate["Current Room"] == "Forest Boss Room":
-    os.system('clear')
         Forest_Boss_Room(gamestate)
     elif gamestate["Current Room"] == "Post Boss Room":
-    os.system('clear')
         Post_Boss_Room(gamestate)
     elif gamestate["Current Room"] == "Casino Room":
-    os.system('clear')
         Casino_Room(gamestate)
     elif gamestate["Current Room"] == "Dirt Road Room":
-    os.system('clear')
         Dirt_Road_Room(gamestate)
     elif gamestate["Current Room"] == "Mountain Climb":
-    os.system('clear')
         Mountain_Climb_Room(gamestate)
     elif gamestate["Current Room"] == "Mountain Peak":
-    os.system('clear')
         Mountain_Peak_Room(gamestate)
     elif gamestate["Current Room"] == "Mountain Boss":
-    os.system('clear')
         Mountain_Boss_Room(gamestate)
     elif gamestate["Current Room"] == "Faith":
-    os.system('clear')
         Faith_Room(gamestate)
+    else:
+        print("Something went wrong")
+        sys.exit()
 
 # How combat is initiated
 def combat(gamestate):
     os.system('clear')
     player_weapon = gamestate["Inventory"]["Weapon"]
     enemy_weapon = gamestate["Current Enemy"]["Weapon"]
-    print "You have " + str(gamestate["Health"]) + " Health, " + str(gamestate["Gold"]) + " Gold, and are level " + str(gamestate["Level"]) + "."
-    print "You wield a " + str(gamestate["Inventory"]["Weapon"]["Name"])
-    print "You face a " + str(gamestate["Current Enemy"]["Name"]) + " who has " + str(gamestate["Current Enemy"]["Health"]) + " health."
-    print "Fight begins in 5 seconds"
+    print(f"You have {str(gamestate["Health"])} Health, {str(gamestate["Gold"])} Gold, and are level {str(gamestate["Level"])}.")
+    print(f"You wield a {str(gamestate["Inventory"]["Weapon"]["Name"])}")
+    print(f"You face a {str(gamestate["Current Enemy"]["Name"])} who has {str(gamestate["Current Enemy"]["Health"])} health.")
+    print("Fight begins in 5 seconds")
     time.sleep(5)
     os.system('clear')
     while gamestate["Health"] > 0 and gamestate["Current Enemy"]["Health"] > 0:
@@ -167,7 +154,7 @@ def combat(gamestate):
         accuracy = list(range(1, a))
         pick = random.randint(1,10)
         if pick in accuracy:
-            print "You hit " + str(gamestate["Current Enemy"]["Name"]) + " for " + str(player_weapon["Damage"] * gamestate["Level"]) + " damage."
+            print(f"You hit {str(gamestate["Current Enemy"]["Name"])} for {str(player_weapon["Damage"] * gamestate["Level"])} damage.")
             gamestate["Current Enemy"]["Health"] = gamestate["Current Enemy"]["Health"] - (player_weapon["Damage"] * gamestate["Level"])
             print "Player: " + str(gamestate["Health"]) + " health."
             print "Enemy: " + str(gamestate["Current Enemy"]["Health"]) + " health."
